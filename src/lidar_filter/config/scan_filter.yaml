@@ -1,0 +1,13 @@
+scan_filterer:
+  ros__parameters:
+    filter1:
+      name: angle_filter
+      type: laser_filters/LaserScanAngularBoundsFilter
+      params:
+        lower_angle: -2.5
+        upper_angle: 2.5
+# quet tu -143 den 143 do kia la don vi radian, nam ngoai khaong nay se bi loai bo hoac mat tac dung trong du lieu scan 
+#bo loc theo goc quet lidar , file config la cac file cau hinh 
+#muc dich chinh cua file lidar_filter gia su lidar quet goc 360 do nhung 1 phan tia laser bi vuong than robot
+#vuong banh xe, gia do, hoac phia sau robot gay nhieu, khi do SLAM co the ve map bi loi
+#bo loc nay giup cvung lidar sach hon 

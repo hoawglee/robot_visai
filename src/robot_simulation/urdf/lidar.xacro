@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <joint name="laser_joint " type="fixed">
+            <parent link="chassis"/>
+            <child link="laser_frame"/>
+            <origin xyz="0.1 0 0.175" rpy="0 0 0"/>
+
+    </joint>
+
+    <link name="laser_frame">
+        <visual>
+            <geometry>
+                <cylinder radius="0.04" length="0.04"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.04" length="0.04"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.3" length="0.04" radius="0.04">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+
+    <gazebo reference="laser_frame">
+        <material>Gazebo/Red</material>
+
+        <sensor name="laser" type="ray">
+            <pose> 0 0 0 0 0 0 </pose>
+            <visualize>true</visualize>
+            <update_rate>10</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-3.14</min_angle>
+                        <max_angle>3.14</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.3</min>
+                    <max>12</max>
+                </range>
+            </ray>
+
+            <plugin name="laser_controller" filename="libgazebo_ros_ray_sensor.so">
+                <ros>
+                    <argument>~/out:=scan</argument>
+                </ros>
+                <output_type>sensor_msgs/LaserScan</output_type>
+                <frame_name>laser_frame</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo> 
+
+    <!-- <gazebo reference="laser_frame"> 
+        <material>Gazebo/Red</material>
+
+        <sensor type="ray" name="velodyne2-HDL32E">
+          <pose>0 0 0 0 0 0</pose>
+          <visualize>true</visualize>
+          <update_rate>5</update_rate>
+
+          <ray>
+                <scan>
+                    <horizontal>
+                        <samples>220</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-3.142</min_angle>
+                        <max_angle>3.142</max_angle>
+                    </horizontal>
+                    <vertical>
+                        <samples>32</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-0.26</min_angle>
+                        <max_angle>0.26</max_angle>
+                    </vertical>
+                </scan>
+
+                <range>
+                    <min>0.3</min>
+                    <max>131.0</max>
+                    <resolution>0.001</resolution>
+                </range>
+
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.0</stddev>
+                </noise>
+          </ray>
+
+          <plugin name="lidar_3d_controller" filename="libgazebo_ros_velodyne_laser.so">
+            <ros>
+              <namespace>/velodyne2</namespace>
+              <remapping>~/out:=velodyne_points2</remapping>
+            </ros>
+
+            <output_type>sensor_msgs/PointCloud2</output_type>
+            <frame_name>laser_frame</frame_name>
+            <organize_cloud>false</organize_cloud>
+            <min_range>0.9</min_range>
+            <max_range>131.0</max_range>
+            <gaussian_noise>0.008</gaussian_noise>
+          </plugin>
+        </sensor>
+
+
+    </gazebo> -->
+
+
+</robot>
+<!-- Nếu tăng lên 20, 30, 40 Hz thì dữ liệu ra nhanh hơn nhưng máy tính nặng hơn. -->
+<!-- Đây là plugin nối giữa Gazebo và ROS 2 -->
+<!-- filename="libgazebo_ros_ray_sensor.so" là thư viện plugin dùng để lấy dữ liệu ray sensor trong Gazebo rồi đưa sang ROS. -->
