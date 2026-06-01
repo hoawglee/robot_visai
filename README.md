@@ -61,7 +61,7 @@ Choose between SLAM Toolbox or Cartographer:
 ros2 launch robot_mapping slam_toolbox.launch.py
 
 # Save map
-ros2 run nav2_map_server map_saver_cli -f ~/diff_sim_robot/src/robot_mapping/maps/my_map
+ros2 run nav2_map_server map_saver_cli -f ~/lehoang_ws/src/robot_mapping/maps/my_map
 ```
 Once SLAM is running and you move the robot, maps will be saved in `robot_navigation/maps/`.
 
